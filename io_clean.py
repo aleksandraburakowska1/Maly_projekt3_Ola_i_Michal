@@ -24,6 +24,32 @@ def download_gios_archive(year, gios_id, filename):
                 except Exception as e:
                     print(f"Błąd przy wczytywaniu {year}: {e}")
     return df
+def build_kod2miasto(dfmeta_raw: pd.DataFrame) -> dict:
+    meta = dfmeta_raw.copy()
+    meta.columns = meta.iloc[0]
+    meta = meta[1:].reset_index(drop=True)
+
+    def pick(startswith_txt: str) -> str:
+        for c in meta.columns:
+            if str(c).strip().lower().startswith(startswith_txt):
+                return c
+        raise KeyError(f"Brak kolumny zaczynającej się od: {startswith_txt}")
+
+    col_code = pick("kod stacji")  # aktualny kod
+    # bywa 'Miejscowość' albo 'Miasto'
+    try:
+        col_city = pick("miejscowość")
+    except KeyError:
+        col_city = pick("miasto")
+
+    tmp = meta[[col_code, col_city]].copy()
+    tmp[col_code] = tmp[col_code].astype(str).str.strip()
+    tmp[col_city] = tmp[col_city].astype(str).str.strip()
+    tmp = tmp.dropna(subset=[col_code, col_city])
+    tmp = tmp[(tmp[col_code] != "") & (tmp[col_city] != "")]
+
+    return dict(zip(tmp[col_code], tmp[col_city]))
+
 
 #wprowadzona zmiana względem poprzedniego kodu: wczytuję metadane z pliku excel 
 import pandas as pd
@@ -212,3 +238,4 @@ def dodaj_multiindex(df: pd.DataFrame, mapa_kod_miasto: dict) -> pd.DataFrame:
     df2.columns = pd.MultiIndex.from_tuples(nowe_kolumny,
                                             names=["Miejscowość", "Kod stacji"])
     return df2
+
