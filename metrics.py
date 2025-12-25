@@ -42,23 +42,6 @@ def shift_midnight_to_prev_day(df: pd.DataFrame) -> pd.DataFrame:
     #print(f"Przesunięto {int(m.sum())} wierszy z 00:00:00 na poprzedni dzień.")
     return out 
 
-import pandas as pd
-
-def to_long_pm25(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Zamienia tabelę szeroką (kolumny = stacje) na format long:
-    Data | Rok | Kod_stacji | PM25
-    """
-    station_cols = [c for c in df.columns if c not in ["Data", "Rok"]]
-
-    df_long = df.melt(
-        id_vars=["Data", "Rok"],
-        value_vars=station_cols,
-        var_name="Kod_stacji",
-        value_name="PM25"
-    )
-
-    return df_long
 def add_city_and_month(
     df_long: pd.DataFrame,
     kod2miasto: dict
@@ -81,18 +64,7 @@ def add_city_and_month(
     df["Miesiac"] = df["Data"].dt.month
 
     return df
-def monthly_station_mean(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Średnia miesięczna PM25 dla każdej stacji.
-    """
-    return (
-        df
-        .groupby(
-            ["Rok", "Miasto", "Kod_stacji", "Miesiac"],
-            as_index=False
-        )["PM25"]
-        .mean()
-    )
+
 def monthly_city_mean(df_station_month: pd.DataFrame) -> pd.DataFrame:
     """
     Średnia miesięczna PM25 dla miasta
@@ -156,3 +128,4 @@ def select_top_bottom_stations(
     bottomk = one_year.nsmallest(k, "przekracza")
     selected = pd.concat([topk, bottomk])["Kod_stacji"].unique()
     return selected
+
