@@ -65,19 +65,6 @@ def add_city_and_month(
 
     return df
 
-def monthly_city_mean(df_station_month: pd.DataFrame) -> pd.DataFrame:
-    """
-    Średnia miesięczna PM25 dla miasta
-    (uśrednienie po stacjach).
-    """
-    return (
-        df_station_month
-        .groupby(
-            ["Rok", "Miasto", "Miesiac"],
-            as_index=False
-        )["PM25"]
-        .mean()
-    )
 #tu daję też funkcje potrzebne do fragmentu zadania 4: liczenie dziennych średnich, dni z przekroczeniem, zliczanie dni, wybór top/bottom.
 def daily_station_mean(df_long: pd.DataFrame) -> pd.DataFrame:
     """
@@ -128,4 +115,5 @@ def select_top_bottom_stations(
     bottomk = one_year.nsmallest(k, "przekracza")
     selected = pd.concat([topk, bottomk])["Kod_stacji"].unique()
     return selected
+
 
