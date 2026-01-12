@@ -19,3 +19,20 @@ zadanie 1: Wczytanie i czyszczenie danych
     6. Połączenie danych z różnych lat: Dane ze wszystkich lat połączono w jeden wspólny DataFrame (concat), zastosowano join="inner", aby pozostawić wyłącznie stacje występujące we wszystkich analizowanych           latach, indeks został zresetowany.
     7. Dodanie MultiIndex: Na podstawie metadanych zbudowano słownik: kod stacji → miejscowość, a następnie kolumny zostały przekształcone do postaci MultiIndex, gdzie poziom 1 to miejscowość, a poziom 2 to kod       stacji. MultiIndex ułatwia późniejszą agregację danych na poziomie miast.
     8. Zapis danych do pliku: Ostateczny, oczyszczony zbiór danych zapisano do pliku: PM25_all_years.csv. Plik ten stanowi punkt wyjścia do dalszych analiz statystycznych i wizualizacji w kolejnych zadaniach.
+Zadanie 2: Średnie miesięczne + trend dla miast:
+  Celem jest policzenie średnich miesięcznych stężeń PM2.5 dla miast Warszawa i Katowice w wybranych latach (2015 i 2024) oraz przygotowanie danych do wykresu trendu. Średnia dla miasta w danym miesiącu jest liczona jako średnia ze wszystkich dostępnych pomiarów ze wszystkich stacji w tym mieście
+  Etapy zadania:
+    1. Wybór odpowiednich lat i filtrowanie danych do wierszy, których rok z kolumny Data należy do listy "lata interesujące".
+    2. Zmiana formatu danych z wide na long
+    3. Dla każdej stacji przypisanie miasta na podstawie mapowania kod2miasto (z metadanych)
+    4. Wybór interesujących miast (Warszawy i Katowic)
+    5. kod agreguje dane po:
+    - rok: Rok = Data.year
+    - miesiąc: Miesiac = Data.month
+    - miasto
+    i liczy średnią PM2.5. tabela: Rok | Miesiac | Miasto | PM25 jest bezpośrednią bazą do wykresu trendu.
+    6. wizualizacja trendu za pomocą funkcji rysującej wykres (plot_monthly_pm25) z pliku viz.py
+
+
+
+
