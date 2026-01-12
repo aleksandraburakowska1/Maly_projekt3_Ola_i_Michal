@@ -32,6 +32,15 @@ Zadanie 2: Średnie miesięczne + trend dla miast:
     - miasto
     i liczy średnią PM2.5. tabela: Rok | Miesiac | Miasto | PM25 jest bezpośrednią bazą do wykresu trendu.
     6. wizualizacja trendu za pomocą funkcji rysującej wykres (plot_monthly_pm25) z pliku viz.py
+zadanie 3: Heatmapa miesięcznych średnich stężeń PM2.5
+Cel: Celem zadania było przedstawienie rozkładu średnich miesięcznych stężeń PM2.5 dla wszystkich dostępnych miejscowości w latach 2015, 2018, 2021 oraz 2024 w postaci heatmap. Każdy panel (facet) odpowiada jednej miejscowości, co umożliwia porównanie sezonowości zanieczyszczeń pomiędzy miastami oraz zmian w czasie.
+  Etapy zadania:
+     1. Na początku wybrano lata do analizy i przefiltrowano dane tak, by zawierały obserwacje tylko z tych lat
+    2. W tym zadaniu też dane zostały przekształcone do formatu long. Dodatkowo wartości PM2.5 zostały jawnie przekonwertowane na typ numeryczny, aby uniknąć           problemów przy agregacji.
+    3. Na podstawie metadanych stacji pomiarowych każdemu kodowi stacji przypisano miejscowość, co pozwoliło na agregację danych na poziomie miast, niezależnie od     liczby stacji w danej lokalizacji.
+    4. obliczenie miesięcznych średnich i wizualizacja wyników na heatmapach
+
+
 
 
 
